@@ -1,4 +1,4 @@
-FROM gradle:8.5-sdk correto-20
+FROM gradle:8.5-correto-20
 
 WORKDIR /app
 
