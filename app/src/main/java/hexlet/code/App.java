@@ -7,6 +7,7 @@ import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
 import hexlet.code.repository.BaseRepository;
+import hexlet.code.util.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
@@ -64,11 +67,17 @@ public class App {
             config.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
 
-        app.get("/", context ->
-            context.render("welcomePage.jte")
-        );
-        app.get("/urls/build", context ->
+        app.get(NamedRoutes.home(), context ->
                 context.render("createUrl.jte")
+        );
+
+        app.post(NamedRoutes.urls(), context -> {
+            var name = context.formParamAsClass("name", URL.class).get();
+            
+            System.out.println(name);
+        });
+        app.get(NamedRoutes.urls(), context ->
+                context.render("Urls.jte")
         );
         return app;
     }
