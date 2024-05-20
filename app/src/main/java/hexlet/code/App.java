@@ -6,6 +6,8 @@ import com.zaxxer.hikari.HikariDataSource;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
+import hexlet.code.controller.RootConroller;
+import hexlet.code.controller.UrlsController;
 import hexlet.code.repository.BaseRepository;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.Javalin;
@@ -15,11 +17,10 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
+
 
 @Slf4j
 public class App {
@@ -67,18 +68,10 @@ public class App {
             config.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
 
-        app.get(NamedRoutes.home(), context ->
-                context.render("createUrl.jte")
-        );
-
-        app.post(NamedRoutes.urls(), context -> {
-            var name = context.formParamAsClass("name", URL.class).get();
-            
-            System.out.println(name);
-        });
-        app.get(NamedRoutes.urls(), context ->
-                context.render("Urls.jte")
-        );
+        app.get(NamedRoutes.home(), RootConroller::index);
+        app.post(NamedRoutes.urls(), UrlsController::addUrl);
+        app.get(NamedRoutes.urls(), UrlsController::index);
+        app.get(NamedRoutes.url("{id}"), UrlsController::getUrl);
         return app;
     }
 }
