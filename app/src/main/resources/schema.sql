@@ -1,5 +1,5 @@
 create table urls(
-id serial primary key not null,
+id int not null,
 name varchar(255),
 createdAt timestamp,
 CONSTRAINT urls PRIMARY KEY (id)
