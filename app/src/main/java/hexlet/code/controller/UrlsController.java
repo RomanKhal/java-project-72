@@ -3,6 +3,7 @@ package hexlet.code.controller;
 import hexlet.code.dto.UrlPage;
 import hexlet.code.dto.UrlsPage;
 import hexlet.code.model.Url;
+import hexlet.code.repository.ChecksRepository;
 import hexlet.code.repository.UrlsRepository;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.http.Context;
@@ -38,7 +39,7 @@ public class UrlsController {
     }
 
     public static void index(Context context) throws SQLException {
-        UrlsPage page = new UrlsPage(UrlsRepository.index());
+        UrlsPage page = new UrlsPage(UrlsRepository.index(), ChecksRepository.index());
         page.setFlash(context.consumeSessionAttribute("flash"));
         context.render("Urls.jte", model("page", page));
     }
