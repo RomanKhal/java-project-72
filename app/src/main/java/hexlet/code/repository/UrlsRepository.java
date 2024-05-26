@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UrlsRepository extends BaseRepository{
 
@@ -55,19 +56,20 @@ public class UrlsRepository extends BaseRepository{
         return result;
     }
 
-    public static Url find(Long id) throws SQLException {
+    public static Optional<Url> find(Long id) throws SQLException {
         var sql = "select * from urls where id = ?";
         Url result = new Url();
         try (var con = dataSource.getConnection();
         var preparedStatement = con.prepareStatement(sql)){
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            if (resultSet.next()){
                 result.setId(id);
                 result.setName((resultSet.getString("name")));
                 result.setCreatedAt(resultSet.getTimestamp("createdAt"));
+                return Optional.of(result);
             }
         }
-        return result;
+        return Optional.empty();
     }
 }

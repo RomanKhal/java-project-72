@@ -6,6 +6,7 @@ import hexlet.code.model.Url;
 import hexlet.code.repository.UrlsRepository;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.http.Context;
+import io.javalin.http.NotFoundResponse;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -44,7 +45,7 @@ public class UrlsController {
 
     public static void getUrl(Context context) throws SQLException {
         var id = context.pathParamAsClass("id", Long.class).get();
-        Url url = UrlsRepository.find(id);
+        Url url = UrlsRepository.find(id).orElseThrow(() -> new NotFoundResponse("Not found url id = " + id));
         var page = new UrlPage(url);
         context.render("show.jte", model("page", page));
     }
