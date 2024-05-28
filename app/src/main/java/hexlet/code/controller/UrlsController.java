@@ -3,6 +3,7 @@ package hexlet.code.controller;
 import hexlet.code.dto.UrlPage;
 import hexlet.code.dto.UrlsPage;
 import hexlet.code.model.Url;
+import hexlet.code.model.UrlCheck;
 import hexlet.code.repository.ChecksRepository;
 import hexlet.code.repository.UrlsRepository;
 import hexlet.code.util.NamedRoutes;
@@ -14,12 +15,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class UrlsController {
     public static void addUrl(Context context) throws SQLException, URISyntaxException {
-        var name = context.formParamAsClass("name", String.class).get();
+        var name = context.formParamAsClass("name", String.class).get().trim();
         try {
             URL url = new URI(name).toURL();
             String path = url.getPath();
@@ -39,7 +41,7 @@ public class UrlsController {
     }
 
     public static void index(Context context) throws SQLException {
-        UrlsPage page = new UrlsPage(UrlsRepository.index(), ChecksRepository.index());
+        UrlsPage page = new UrlsPage(UrlsRepository.index());
         page.setFlash(context.consumeSessionAttribute("flash"));
         context.render("Urls.jte", model("page", page));
     }
@@ -47,7 +49,8 @@ public class UrlsController {
     public static void getUrl(Context context) throws SQLException {
         var id = context.pathParamAsClass("id", Long.class).get();
         Url url = UrlsRepository.find(id).orElseThrow(() -> new NotFoundResponse("Not found url id = " + id));
-        var page = new UrlPage(url);
+        List<UrlCheck> urlChecks = ChecksRepository.index(id);
+        var page = new UrlPage(url, urlChecks);
         context.render("show.jte", model("page", page));
     }
 }

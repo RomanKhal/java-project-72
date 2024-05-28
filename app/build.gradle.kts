@@ -24,7 +24,7 @@ dependencies {
     implementation("com.h2database:h2:2.2.224")
     implementation("org.postgresql:postgresql:42.1.2")
     implementation("com.konghq:unirest-java:3.14.5")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
+    implementation("org.jsoup:jsoup:1.17.2")
     implementation("gg.jte:jte:3.1.11")
 
 
