@@ -51,6 +51,7 @@ public class UrlsController {
         Url url = UrlsRepository.find(id).orElseThrow(() -> new NotFoundResponse("Not found url id = " + id));
         List<UrlCheck> urlChecks = ChecksRepository.index(id);
         var page = new UrlPage(url, urlChecks);
+        page.setFlash(context.consumeSessionAttribute("flash"));
         context.render("show.jte", model("page", page));
     }
 }

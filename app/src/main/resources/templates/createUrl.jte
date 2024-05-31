@@ -6,8 +6,8 @@
 content = @`
     <div class="mx-auto p-4 py-md-5">
         @if(page.getFlash() != null)
-        <p> ${page.getFlash()}</p>
-            @endif
+            <p> ${page.getFlash()}</p>
+        @endif
         <form action="${NamedRoutes.urls()}" method="post">
             <div class="mb-3">
                 <label for="exampleURL" class="form-label">URL</label>

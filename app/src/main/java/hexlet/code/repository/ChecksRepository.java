@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ChecksRepository extends BaseRepository {
     public static void save(UrlCheck check) throws SQLException {
-        String sql = "insert into url_checks (statusCode, title, h1, description, urlId) values (?,?,?,?,?)";
+        String sql = "insert into url_checks (statusCode, title, h1, description, urlId, createdAt) values (?,?,?,?,?,?)";
         try (var con = dataSource.getConnection();
              var preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, check.getStatusCode());
@@ -19,6 +19,7 @@ public class ChecksRepository extends BaseRepository {
             preparedStatement.setString(3, check.getH1());
             preparedStatement.setString(4, check.getDescription());
             preparedStatement.setLong(5, check.getUrlId());
+            preparedStatement.setTimestamp(6, check.getCreatedAt());
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -29,7 +30,7 @@ public class ChecksRepository extends BaseRepository {
 
     public static List<UrlCheck> index(Long urlId) throws SQLException {
         System.out.println("index in");
-        String sql = "select * from url_checks where urlId=? order by createdAt desc";
+        String sql = "select * from url_checks where urlId=? order by id desc ";
         List<UrlCheck> result = new ArrayList<>();
         try (var con = dataSource.getConnection();
              var preparedStatement = con.prepareStatement(sql)) {

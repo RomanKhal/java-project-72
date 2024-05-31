@@ -12,6 +12,7 @@
     <title>Work on fourth project</title>
 </head>
 <body>
+<%--${flash}--%>
 <div class="mx-auto p-4 py-md-5">
 <ul class="nav nav-underline">
 <%--    <li class="nav-item">--%>
