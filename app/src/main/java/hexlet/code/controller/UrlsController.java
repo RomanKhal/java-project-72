@@ -25,7 +25,7 @@ public class UrlsController {
         try {
             URL url = new URI(name).toURL();
             String path = url.getPath();
-            name = path.equals("/") ? url.toString(): url.toString().replace("/", "");
+            name = path.equals("/") ? url.toString(): url.toString().replace(path, "");
             if (UrlsRepository.isInDb(name)) throw new RuntimeException();
             Url current = new Url(name);
             UrlsRepository.save(current);
