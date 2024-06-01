@@ -65,6 +65,7 @@ public class App {
         log.info(sql);
         try (var connection = dataSource.getConnection();
              var statement = connection.createStatement()) {
+            String schema = connection.getSchema();
             statement.execute(sql);
         }
         BaseRepository.dataSource = dataSource;

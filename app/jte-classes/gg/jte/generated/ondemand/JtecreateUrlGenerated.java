@@ -10,10 +10,10 @@ public final class JtecreateUrlGenerated {
 			public void writeTo(gg.jte.html.HtmlTemplateOutput jteOutput) {
 				jteOutput.writeContent("\n    <div class=\"mx-auto p-4 py-md-5\">\n        ");
 				if (page.getFlash() != null) {
-					jteOutput.writeContent("\n        <p> ");
+					jteOutput.writeContent("\n            <p> ");
 					jteOutput.setContext("p", null);
 					jteOutput.writeUserContent(page.getFlash());
-					jteOutput.writeContent("</p>\n            ");
+					jteOutput.writeContent("</p>\n        ");
 				}
 				jteOutput.writeContent("\n        <form");
 				var __jte_html_attribute_0 = NamedRoutes.urls();
