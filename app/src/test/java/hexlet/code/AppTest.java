@@ -38,6 +38,7 @@ public class AppTest {
         serverMock = new MockWebServer();
         serverMock.start();
         testUrl = serverMock.url("/mock").toString();
+
     }
 
     @AfterAll

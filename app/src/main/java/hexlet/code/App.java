@@ -36,8 +36,8 @@ public class App {
         return Integer.parseInt(port);
     }
 
-    private static String getRemoteDB(){
-       return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;FILE_LOCK=FS");
+    private static String getRemoteDB() {
+        return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;LOCK_MODE=0");
     }
 
     private static TemplateEngine createTemplateEngine() {
