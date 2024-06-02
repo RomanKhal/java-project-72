@@ -17,7 +17,7 @@ import java.util.Objects;
 
 
 public class CheckController {
-    public static void addCheck(Context context) throws SQLException {
+    public static void create(Context context) throws SQLException {
         var id = context.pathParamAsClass("id", Long.class).get();
         Url url = UrlsRepository.find(id).orElseThrow(() -> new NotFoundResponse("Not found url id = " + id));
         HttpResponse<String> getRequest = Unirest.get(url.getName()).asString();

@@ -29,7 +29,6 @@ public class ChecksRepository extends BaseRepository {
     }
 
     public static List<UrlCheck> index(Long urlId) throws SQLException {
-        System.out.println("index in");
         String sql = "select * from url_checks where urlId=? order by id desc ";
         List<UrlCheck> result = new ArrayList<>();
         try (var con = dataSource.getConnection();
@@ -46,7 +45,6 @@ public class ChecksRepository extends BaseRepository {
                 result.add(new UrlCheck(id,status,title,h1,description,id, createdAt));
             }
         }
-        System.out.println("index out");
             return result;
     }
 }

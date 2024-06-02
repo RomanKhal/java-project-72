@@ -36,9 +36,8 @@ public class AppTest {
     @BeforeAll
     public static void startServer() throws IOException {
         serverMock = new MockWebServer();
-        serverMock.enqueue(new MockResponse().setBody(getResource("mockFile.html")).setResponseCode(200));
         serverMock.start();
-        testUrl = serverMock.url("/").toString();
+        testUrl = serverMock.url("/mock").toString();
     }
 
     @AfterAll
@@ -49,6 +48,7 @@ public class AppTest {
     @BeforeEach
     public void setApp() throws SQLException, IOException {
         app = App.getApp();
+        serverMock.enqueue(new MockResponse().setBody(getResource("mockFile.html")).setResponseCode(200));
     }
 
     @Test
@@ -60,21 +60,26 @@ public class AppTest {
     }
 
     @Test
-    public void testAddLink() {
+    public void testAddUrl() {
+        var actual = "name=" + testUrl;
+        var expected = testUrl.replace("/mock", "");
         JavalinTest.test(app, (server, client) -> {
-            var response = client.post(NamedRoutes.urls(), "name=" + testUrl);
-            Assertions.assertEquals(200, response.code());
-            Assertions.assertTrue(UrlsRepository.isInDb(testUrl));
+            try (var response = client.post(NamedRoutes.urls(), actual)) {
+                Assertions.assertEquals(200, response.code());
+                Assertions.assertTrue(UrlsRepository.search(expected).isPresent());
+            }
         });
     }
 
     @Test
-    public void testAddUrl() throws SQLException {
+    public void testUrlCheck() throws SQLException {
         Url current = new Url(testUrl);
-        UrlsRepository.save(current);
+        long id = UrlsRepository.save(current);
         JavalinTest.test(app, (server, client) -> {
-            Response response = client.get(NamedRoutes.url(1L));
-            Assertions.assertEquals(200, response.code());
+            try (Response response = client.post(NamedRoutes.check(id))) {
+                Assertions.assertEquals(200, response.code());
+                Assertions.assertEquals("Some title", ChecksRepository.index(id).get(0).getTitle());
+            }
         });
     }
 
@@ -98,14 +103,15 @@ public class AppTest {
     public void testMock() throws SQLException {
         UrlsRepository.save(new Url(testUrl));
         JavalinTest.test(app, (server, client) -> {
-            var response = client.post(NamedRoutes.check(1L));
-            Assertions.assertEquals(200, response.code());
-            List<UrlCheck> index = ChecksRepository.index(1L);
-            Assertions.assertFalse(index.isEmpty());
-            UrlCheck urlCheck = index.get(0);
-            Assertions.assertEquals("Some h1", urlCheck.getH1());
-            Assertions.assertEquals("some description", urlCheck.getDescription());
-            Assertions.assertEquals("Some title", urlCheck.getTitle());
+            try (var response = client.post(NamedRoutes.check(1L))) {
+                Assertions.assertEquals(200, response.code());
+                List<UrlCheck> index = ChecksRepository.index(1L);
+                Assertions.assertFalse(index.isEmpty());
+                UrlCheck urlCheck = index.get(0);
+                Assertions.assertEquals("Some h1", urlCheck.getH1());
+                Assertions.assertEquals("some description", urlCheck.getDescription());
+                Assertions.assertEquals("Some title", urlCheck.getTitle());
+            }
         });
     }
 }

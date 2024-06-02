@@ -37,7 +37,7 @@ public class App {
     }
 
     private static String getRemoteDB(){
-       return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project");
+       return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;FILE_LOCK=FS");
     }
 
     private static TemplateEngine createTemplateEngine() {
@@ -75,10 +75,10 @@ public class App {
         });
 
         app.get(NamedRoutes.home(), RootConroller::index);
-        app.post(NamedRoutes.urls(), UrlsController::addUrl);
+        app.post(NamedRoutes.urls(), UrlsController::create);
         app.get(NamedRoutes.urls(), UrlsController::index);
-        app.get(NamedRoutes.url("{id}"), UrlsController::getUrl);
-        app.post(NamedRoutes.check("{id}"), CheckController::addCheck);
+        app.get(NamedRoutes.url("{id}"), UrlsController::show);
+        app.post(NamedRoutes.check("{id}"), CheckController::create);
         return app;
     }
 }
