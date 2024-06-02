@@ -26,7 +26,7 @@ dependencies {
     implementation("com.konghq:unirest-java:3.14.5")
     implementation("org.jsoup:jsoup:1.17.2")
     implementation("gg.jte:jte:3.1.11")
-
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
