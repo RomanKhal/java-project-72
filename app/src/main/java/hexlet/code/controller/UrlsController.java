@@ -28,7 +28,9 @@ public class UrlsController {
             String protocol = url.getProtocol();
             String authority = url.getAuthority();
             String savedName = protocol + "://" + authority;
-            if (UrlsRepository.search(savedName).isPresent()) throw new BadRequestResponse();
+            if (UrlsRepository.search(savedName).isPresent()) {
+                throw new BadRequestResponse();
+            }
             Url current = new Url(savedName);
             UrlsRepository.save(current);
             context.sessionAttribute("flash", "Страница успешно добавлена");

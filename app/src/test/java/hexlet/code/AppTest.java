@@ -10,7 +10,11 @@ import io.javalin.testtools.JavalinTest;
 import okhttp3.Response;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -47,7 +51,7 @@ public class AppTest {
     }
 
     /**
-     *Инстанс сервера и заглушка
+     *Инстанс сервера и заглушка.
      */
     @BeforeEach
     public void setApp() throws SQLException, IOException {
