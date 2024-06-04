@@ -46,6 +46,9 @@ public class AppTest {
         serverMock.shutdown();
     }
 
+    /**
+     *Инстанс сервера и заглушка
+     */
     @BeforeEach
     public void setApp() throws SQLException, IOException {
         app = App.getApp();
