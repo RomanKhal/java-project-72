@@ -22,7 +22,7 @@ import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class UrlsController {
     public static void create(Context context) throws SQLException, URISyntaxException {
-        var name = context.formParamAsClass("name", String.class).get().trim();
+        var name = context.formParamAsClass("url", String.class).get().trim();
         try {
             URL url = new URI(name).toURL();
             String protocol = url.getProtocol();

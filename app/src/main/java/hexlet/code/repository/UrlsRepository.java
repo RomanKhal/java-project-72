@@ -12,7 +12,7 @@ import java.util.*;
 public class UrlsRepository extends BaseRepository {
 
     public static long save(Url url) throws SQLException {
-        String sql = "insert into urls (name, createdAt) values (?, ?)";
+        String sql = "insert into urls (NAME, CREATED_AT) values (?, ?)";
         try (var con = dataSource.getConnection();
              var preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, url.getName());
@@ -27,10 +27,10 @@ public class UrlsRepository extends BaseRepository {
     }
 
     public static List<Url> index() throws SQLException {
-        String sql = "select u.id, u.name, u.createdAt, max(c.createdAt) as checkTime, c.statusCode "
+        String sql = "select u.ID, u.NAME, u.CREATED_AT, max(c.CREATED_AT) as checkTime, c.STATUS_CODE "
                 + "from urls as u left join url_checks as c "
-                + "on u.id = c.urlId "
-                + "group by u.id,u.name,u.createdAt";
+                + "on u.ID = c.URL_ID "
+                + "group by u.ID,u.NAME,u.CREATED_AT";
         List<Url> result = new ArrayList<>();
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(sql)) {
@@ -39,9 +39,9 @@ public class UrlsRepository extends BaseRepository {
                 Url url = new Url();
                 url.setId(resultSet.getLong("id"));
                 url.setName(resultSet.getString("name"));
-                url.setCreatedAt(resultSet.getTimestamp("createdAt"));
+                url.setCreatedAt(resultSet.getTimestamp("CREATED_AT"));
                 url.setLastCheck(resultSet.getTimestamp("checkTime"));
-                url.setCode(resultSet.getInt("statusCode"));
+                url.setCode(resultSet.getInt("STATUS_CODE"));
                 result.add(url);
             }
         }
@@ -75,7 +75,7 @@ public class UrlsRepository extends BaseRepository {
             if (resultSet.next()) {
                 result.setId(id);
                 result.setName((resultSet.getString("name")));
-                result.setCreatedAt(resultSet.getTimestamp("createdAt"));
+                result.setCreatedAt(resultSet.getTimestamp("CREATED_AT"));
                 return Optional.of(result);
             }
         }

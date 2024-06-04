@@ -24,7 +24,7 @@ public final class JtecreateUrlGenerated {
 					jteOutput.setContext("form", null);
 					jteOutput.writeContent("\"");
 				}
-				jteOutput.writeContent(" method=\"post\">\n            <div class=\"mb-3\">\n                <label for=\"exampleURL\" class=\"form-label\">URL</label>\n                <input type=\"url\" name=\"name\" class=\"form-control\" id=\"exampleURL\" aria-describedby=\"URLHelp\">\n                <div id=\"URLHelp\" class=\"form-text\">Enter your URL here.</div>\n            </div>\n            <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n        </form>\n    </div>\n");
+				jteOutput.writeContent(" method=\"post\">\n            <div class=\"mb-3\">\n                <label for=\"exampleURL\" class=\"form-label\">URL</label>\n                <input type=\"url\" name=\"url\" class=\"form-control\" id=\"exampleURL\" aria-describedby=\"URLHelp\">\n                <div id=\"URLHelp\" class=\"form-text\">Enter your URL here.</div>\n            </div>\n            <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n        </form>\n    </div>\n");
 			}
 		});
 	}
