@@ -30,7 +30,7 @@ public class UrlsRepository extends BaseRepository {
         String sql = "select u.ID, u.NAME, u.CREATED_AT, max(c.CREATED_AT) as checkTime, c.STATUS_CODE "
                 + "from urls as u left join url_checks as c "
                 + "on u.ID = c.URL_ID "
-                + "group by u.ID,u.NAME,u.CREATED_AT";
+                + "group by u.ID,u.NAME,u.CREATED_AT, c.STATUS_CODE";
         List<Url> result = new ArrayList<>();
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(sql)) {
