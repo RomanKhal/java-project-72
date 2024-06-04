@@ -16,7 +16,7 @@
 <div class="mx-auto p-4 py-md-5">
 <ul class="nav nav-underline">
     <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="/">Анализатор страниц</a>
+        <a class="navbar-brand" href="/">Анализатор страниц</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="/">Main</a>
