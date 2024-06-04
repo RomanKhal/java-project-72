@@ -62,7 +62,7 @@ public class AppTest {
 
     @Test
     public void testAddUrl() {
-        var actual = "name=" + testUrl;
+        var actual = "url=" + testUrl;
         var expected = testUrl.replace("/mock", "");
         JavalinTest.test(app, (server, client) -> {
             try (var response = client.post(NamedRoutes.urls(), actual)) {

@@ -58,7 +58,7 @@ public class UrlsRepository extends BaseRepository {
             if (resultSet.next()) {
                 result.setId(resultSet.getLong("id"));
                 result.setName((resultSet.getString("name")));
-                result.setCreatedAt(resultSet.getTimestamp("createdAt"));
+                result.setCreatedAt(resultSet.getTimestamp("CREATED_AT"));
                 return Optional.of(result);
             }
         }
