@@ -5,9 +5,9 @@ import hexlet.code.model.Url;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class UrlsRepository extends BaseRepository {
 
@@ -27,7 +27,10 @@ public class UrlsRepository extends BaseRepository {
     }
 
     public static List<Url> index() throws SQLException {
-        String sql = "select * from urls";
+        String sql = "select u.id, u.name, u.createdAt, max(c.createdAt) as checkTime, c.statusCode "
+                + "from urls as u left join url_checks as c "
+                + "on u.id = c.urlId "
+                + "group by u.id,u.name,u.createdAt";
         List<Url> result = new ArrayList<>();
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(sql)) {
@@ -37,6 +40,8 @@ public class UrlsRepository extends BaseRepository {
                 url.setId(resultSet.getLong("id"));
                 url.setName(resultSet.getString("name"));
                 url.setCreatedAt(resultSet.getTimestamp("createdAt"));
+                url.setLastCheck(resultSet.getTimestamp("checkTime"));
+                url.setCode(resultSet.getInt("statusCode"));
                 result.add(url);
             }
         }

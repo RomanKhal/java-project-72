@@ -9,6 +9,7 @@ import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -20,6 +21,7 @@ public class CheckController {
     public static void create(Context context) throws SQLException {
         var id = context.pathParamAsClass("id", Long.class).get();
         Url url = UrlsRepository.find(id).orElseThrow(() -> new NotFoundResponse("Not found url id = " + id));
+       try {
         HttpResponse<String> getRequest = Unirest.get(url.getName()).asString();
         Document parse = Jsoup.parse(getRequest.getBody());
         int status = getRequest.getStatus();
@@ -32,5 +34,10 @@ public class CheckController {
         ChecksRepository.save(urlCheck);
         context.sessionAttribute("flash", "Страница успешно проверена");
         context.redirect(NamedRoutes.url(id));
+       }
+       catch (Exception e) {
+           context.sessionAttribute("flash", "Не удалось проверить страницу");
+           context.redirect(NamedRoutes.url(id));
+       }
     }
 }

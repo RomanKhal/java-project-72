@@ -1,6 +1,8 @@
 @import hexlet.code.dto.UrlPage
 @import hexlet.code.util.NamedRoutes
+@import hexlet.code.util.Util
 @param UrlPage page
+
 
 @template.layout.page(
 content = @`
@@ -9,20 +11,20 @@ content = @`
             <p> ${page.getFlash()}</p>
         @endif
         <table class="table">
-            <thead>
+
             <tr>
                 <td>id</td>
-                <td>name</td>
-                <td>createdAt</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
                 <td>${page.getUrl().getId()}</td>
-                <td>${page.getUrl().getName()}</td>
-                <td>${page.getUrl().getCreatedAt().toString()}</td>
             </tr>
-            </tbody>
+            <tr>
+                <td>name</td>
+                <td>${page.getUrl().getName()}</td>
+            </tr>
+            <tr>
+                <td>createdAt</td>
+                <td>${Util.asString(page.getUrl().getCreatedAt())}</td>
+            </tr>
+
         </table>
     </div>
     <div class="mx-auto p-4 py-md-5">
@@ -52,7 +54,7 @@ content = @`
                         <td>${item.getH1()}</td>
                         <td>${item.getTitle()}</td>
                         <td>${item.getDescription()}</td>
-                        <td>${item.getCreatedAt().toString()}</td>
+                        <td>${Util.asString(item.getCreatedAt())}</td>
                     </tr>
                 @endfor
                 </tbody>

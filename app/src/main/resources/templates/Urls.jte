@@ -1,5 +1,6 @@
 @import hexlet.code.dto.UrlsPage
 @import hexlet.code.util.NamedRoutes
+@import hexlet.code.util.Util
 @param UrlsPage page
 
 @template.layout.page(
@@ -11,17 +12,19 @@ content = @`
         <table class="table">
             <thead>
             <tr>
-<%--                <td>id</td>--%>
-                <td>name</td>
-                <td>createdAt</td>
+                <td>ID</td>
+                <td>Имя</td>
+                <td>Последняя проверка</td>
+                <td>Код ответа</td>
             </tr>
             </thead>
             <tbody>
             @for(var url : page.getUrls())
                 <tr>
-<%--                    <td>${url.getId()}</td>--%>
+                    <td>${url.getId()}</td>
                     <td><a href="${NamedRoutes.url(url.getId())}">${url.getName()}</a></td>
-                    <td>${url.getCreatedAt().toString()}</td>
+                    <td>${Util.asString(url.getLastCheck())}</td>
+                    <td>${Util.asString(url.getCode())}</td>
                 </tr>
             @endfor
             </tbody>
