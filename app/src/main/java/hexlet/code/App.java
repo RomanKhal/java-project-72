@@ -47,7 +47,7 @@ public class App {
         return templateEngine;
     }
 
-    private static String readResourceFile(String fileName) throws IOException {
+    public static String readResourceFile(String fileName) throws IOException {
         var inputStream = App.class.getClassLoader().getResourceAsStream(fileName);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             return reader.lines().collect(Collectors.joining("\n"));
@@ -79,6 +79,7 @@ public class App {
         app.get(NamedRoutes.urls(), UrlsController::index);
         app.get(NamedRoutes.url("{id}"), UrlsController::show);
         app.post(NamedRoutes.check("{id}"), CheckController::create);
+        app.get(NamedRoutes.reInitDb(), RootConroller::reInitDb);
         return app;
     }
 }

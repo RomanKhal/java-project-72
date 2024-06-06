@@ -24,4 +24,6 @@ public class NamedRoutes {
     public static String check(String id) {
         return "/urls/" + id + "/checks";
     }
+
+    public static String reInitDb() {return "/dropDB";}
 }

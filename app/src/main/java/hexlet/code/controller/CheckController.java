@@ -11,6 +11,8 @@ import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -25,10 +27,10 @@ public class CheckController {
             Document parse = Jsoup.parse(getRequest.getBody());
             int status = getRequest.getStatus();
             String title = parse.title();
-            String h1 = Objects.requireNonNull(parse.selectFirst("h1")).text();
-            String description = Objects
-                    .requireNonNull(parse.getElementsByAttributeValue("name", "description"))
-                    .attr("content");
+            Element h1Tag = parse.getElementsByTag("h1").first();
+            String h1 = h1Tag == null ? "" : h1Tag.text();
+            Element descriptionTag = parse.getElementsByAttributeValue("name", "description").first();
+            String description = descriptionTag == null ? "" : descriptionTag.attr("content");
             UrlCheck urlCheck = new UrlCheck(status, title, h1, description, id);
             ChecksRepository.save(urlCheck);
             context.sessionAttribute("flash", "Страница успешно проверена");

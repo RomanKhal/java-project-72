@@ -51,8 +51,8 @@ content = @`
                     <tr>
                         <td>${item.getId()}</td>
                         <td>${item.getStatusCode()}</td>
-                        <td>${item.getH1()}</td>
                         <td>${item.getTitle()}</td>
+                        <td>${item.getH1()}</td>
                         <td>${item.getDescription()}</td>
                         <td>${Util.asString(item.getCreatedAt())}</td>
                     </tr>
