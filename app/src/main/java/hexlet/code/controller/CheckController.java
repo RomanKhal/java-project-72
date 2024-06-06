@@ -12,10 +12,8 @@ import kong.unirest.Unirest;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.sql.SQLException;
-import java.util.Objects;
 
 
 public class CheckController {

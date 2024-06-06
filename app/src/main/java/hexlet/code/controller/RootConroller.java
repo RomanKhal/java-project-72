@@ -19,8 +19,8 @@ public class RootConroller {
     }
 
     public static void reInitDb(Context context) throws SQLException, IOException {
-        String sql = "DROP TABLE if EXISTS url_checks; " +
-                "DROP TABLE if EXISTS urls;";
+        String sql = "DROP TABLE if EXISTS url_checks; "
+                + "DROP TABLE if EXISTS urls;";
         try (var connection = dataSource.getConnection();
              var statement = connection.createStatement()) {
             statement.execute(sql);
