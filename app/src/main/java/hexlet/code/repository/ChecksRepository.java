@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ChecksRepository extends BaseRepository {
     public static void save(UrlCheck check) throws SQLException {
-        String sql = "insert into url_check (status_code, title, h1, description, url_id, created_at)"
+        String sql = "insert into url_checks (status_code, title, h1, description, url_id, created_at)"
                 + " values (?,?,?,?,?,?)";
         try (var con = dataSource.getConnection();
              var preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -26,21 +26,21 @@ public class ChecksRepository extends BaseRepository {
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                check.setId(generatedKeys.getLong("url_check_id"));
+                check.setId(generatedKeys.getLong("id"));
                 check.setCreatedAt(timestamp);
             }
         }
     }
 
     public static List<UrlCheck> index(Long urlId) throws SQLException {
-        String sql = "select * from url_check where url_id=? order by url_check_id desc ";
+        String sql = "select * from url_checks where url_id=? order by id desc ";
         List<UrlCheck> result = new ArrayList<>();
         try (var con = dataSource.getConnection();
              var preparedStatement = con.prepareStatement(sql)) {
             preparedStatement.setLong(1, urlId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                long id = resultSet.getLong("url_check_id");
+                long id = resultSet.getLong("id");
                 int status = resultSet.getInt("status_code");
                 String title = resultSet.getString("title");
                 String h1 = resultSet.getString("h1");
