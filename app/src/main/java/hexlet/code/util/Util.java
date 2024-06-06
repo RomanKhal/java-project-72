@@ -11,8 +11,10 @@ public class Util {
                 Date date = new Date(((Timestamp) param).getTime());
                 return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(date);
             }
-            if (param instanceof Number) {
-                return String.valueOf(param);
+            if (param instanceof Integer) {
+                if ((int) param != 0) {
+                    return String.valueOf(param);
+                }
             }
         }
         return "";
