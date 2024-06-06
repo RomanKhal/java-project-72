@@ -122,4 +122,13 @@ public class AppTest {
             }
         });
     }
+
+    @Test
+    void testDbReinit() {
+        JavalinTest.test(app, (server, client) -> {
+            var response = client.get(NamedRoutes.reInitDb());
+            Assertions.assertEquals(200, response.code());
+            Assertions.assertTrue(UrlsRepository.index().isEmpty());
+        });
+    }
 }
